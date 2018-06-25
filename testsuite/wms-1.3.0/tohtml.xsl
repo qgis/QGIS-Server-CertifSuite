@@ -8,15 +8,13 @@
   <xsl:template match="/">
     <html>
       <head>
-        <title>Test execution report</title>
+        <title>QGIS Server Certification Report for WMS 1.3.0</title>
+        <link rel="stylesheet" href="style.css" />
         <meta name="generator" content="CTL Report Generator v3"/>
         <xsl:element name="meta">
           <xsl:attribute name="name">date</xsl:attribute>
         </xsl:element>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-        <style type="text/css">
-          <xsl:text>ol { counter-reset: item } li { display: block } li:before { content: counters(item, ".") " "; counter-increment: item }</xsl:text>
-        </style>
       </head>
       <body>
         <xsl:call-template name="tableoc"/>
@@ -24,21 +22,36 @@
     </html>
   </xsl:template>
   <xsl:template name="tableoc">
-    <h1>Test execution report</h1>
-    <h2>
-      <xsl:value-of
-        select="concat(concat(/execution/log[1]/starttest/@prefix,':'),/execution/log[1]/starttest/@local-name)"
-      />
-    </h2>
-    <p style="font-family: Verdana, sans-serif; color: #000099;">
-      <strong>Overall result: </strong>
+    <h1>QGIS Server Certification Report for WMS 1.3.0</h1>
+
+    <div class="date">
+      {{TEMPLATE_DATE}}
+    </div>
+
+    <p>
+      Overall result:
       <xsl:call-template name="testVerdictFromCode">
         <xsl:with-param name="resultCode" select="/execution/log[1]/endtest/@result"/>
       </xsl:call-template>
+      <br/>
+      <br/>
+      Version: {{TEMPLATE_VERSION}}
+      <br/>
+      <br/>
+      Commit: <a href="{{TEMPLATE_COMMIT_LINK}}">{{TEMPLATE_COMMIT}}</a>
+      <br/>
+      <br/>
+      Level tests: BASIC, QUERYABLE, RECOMMENDATIONS
+      <br/>
+      <br/>
+      Exhaustive description for Test Suite: <a href="http://cite.opengeospatial.org/teamengine/about/wms/1.3.0/site/wms-1_3_0-ats.html">here</a>
+      <br/>
+      <br/>
+      This report is automatically generated thanks to <a href="https://github.com/Oslandia/QGIS-Server-CertifSuite">QGIS-Server-CertifSuite</a>.
     </p>
+    <h2>Content</h2>
     <xsl:call-template name="ispezione"/>
-    <div id="toc">
-      <h3>Executed tests</h3>
+    <div id="toc_container">
       <!--<xsl:apply-templates mode="isp" select="/execution/log[1]/starttest"/>-->
       <xsl:call-template name="sommario"/>
     </div>
@@ -51,7 +64,7 @@
   </xsl:template>
   <xsl:template name="ispezione">
     <xsl:if test="count(testcall) &gt; 0">
-      <xsl:element name="ol">
+      <xsl:element name="ul">
         <xsl:for-each select="testcall">
           <xsl:variable name="sessione" select="@path"/>
           <li>
@@ -86,15 +99,15 @@
   <!-- Contenuti -->
   <xsl:template name="dettagli">
     <xsl:for-each select="/execution/log">
-      <hr/>
       <div class="test">
         <xsl:apply-templates select="starttest" mode="call"/>
         <xsl:apply-templates select="message" mode="call"/>
         <xsl:apply-templates select="endtest" mode="call"/>
         <xsl:if test="count(testcall) &gt; 0">
-          <p>Executed tests: <ol>
+          <p>
+            <h4>Executed tests</h4> <ul>
               <xsl:apply-templates select="testcall" mode="call"/>
-            </ol>
+            </ul>
           </p>
         </xsl:if>
         <xsl:apply-templates select="formresults" mode="call"/>
@@ -111,10 +124,8 @@
         </xsl:attribute>test: <xsl:value-of select="concat(concat(./@prefix,':'),./@local-name)"/>
       </xsl:element>
     </h2>
-    <code>session: <xsl:value-of select="./@path"/>
-    </code>
     <p>
-      <b>Assertion: </b>
+      <h4>Assertion</h4>
       <xsl:value-of select="./assertion"/>
     </p>
   </xsl:template>
@@ -156,20 +167,22 @@
     <xsl:comment>RESULT number= <xsl:value-of select="@result"/>
     </xsl:comment>
     <p>
-      <b>Test result: </b>
+      <h4>Test result</h4>
       <xsl:call-template name="testVerdictFromCode">
         <xsl:with-param name="resultCode" select="@result"/>
       </xsl:call-template>
     </p>
   </xsl:template>
   <xsl:template match="message" mode="call">
-    <p class="message">Message <pre>
+    <p>
+      <h4>Message</h4>
+      <pre>
         <xsl:value-of select="current()"/>
       </pre>
     </p>
   </xsl:template>
   <xsl:template match="request" mode="call">
-    <p><b>Submitted request:</b>
+    <p><h4>Submitted request</h4>
       <pre>
         <b><em>Method</em></b>
         <xsl:text>&#10;</xsl:text>
@@ -183,7 +196,7 @@
         <xsl:if test="count(current()/ctl:request/ctl:param) &gt; 0">
           <xsl:for-each select="current()/ctl:request/ctl:param">
             <xsl:text/>
-            <xsl:value-of select="current()/@name"/>=<xsl:value-of select="current()"/><xsl:text disable-output-escaping="yes"><![CDATA[&]]></xsl:text>
+            <xsl:value-of select="current()/@name"/>=<xsl:value-of select="current()"/><xsl:text disable-output-escaping="yes"><![CDATA[&]]></xsl:text><br/>
           </xsl:for-each>
         </xsl:if>
         <xsl:text>&#10;</xsl:text>

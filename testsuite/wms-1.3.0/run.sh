@@ -16,10 +16,14 @@ fi
 # start servers
 docker-compose up -d
 
+# get metadata
+VERSION=$(docker exec -it qgisserver-certifsuite-master sh -c 'cd /root/QGIS/ && git rev-parse --symbolic-full-name --abbrev-ref HEAD')
+COMMIT=$(docker exec -it qgisserver-certifsuite-master sh -c 'cd /root/QGIS/ && git rev-parse HEAD')
+
 # run tests
 rm -rf $OUTPUTDIR
 mkdir -p $OUTPUTDIR
-./report.py $OUTPUTDIR bloublo
+./report.py $OUTPUTDIR $VERSION $COMMIT
 
 # clear containers
 docker-compose stop
