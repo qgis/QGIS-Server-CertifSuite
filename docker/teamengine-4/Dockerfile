@@ -19,6 +19,7 @@ RUN mvn install
 RUN cd teamengine-web/target/ && unzip -q teamengine.war -d /usr/local/tomcat/webapps/teamengine
 RUN cd teamengine-web/target/ && unzip -q teamengine-common-libs.zip -d /usr/local/tomcat/lib
 RUN cd teamengine-console/target/ && unzip -q teamengine-console-*-base.zip -d /root/te_base
+RUN cd teamengine-console/target/ && unzip -o -q teamengine-console-*-bin.zip -d /root/te_base
 
 # WMS 1.3.0
 WORKDIR /root/
@@ -31,6 +32,16 @@ RUN cd target && unzip -q ets-wms13-*-ctl.zip -d /root/te_base/scripts
 RUN mkdir -p /root/te_base/resources/lib
 RUN cp target/ets-wms13-1.22-site.jar /root/te_base/resources/lib
 RUN cp target/ets-wms13-1.22.jar /root/te_base/resources/lib
+
+# WFS 1.1.0
+WORKDIR /root/
+RUN git clone https://github.com/opengeospatial/ets-wfs11
+WORKDIR /root/ets-wfs11
+RUN git checkout 1.31
+RUN mvn install
+
+RUN cd target && unzip -q ets-wfs11-*-ctl.zip -d /root/te_base/scripts
+RUN cd target && unzip -q ets-wfs11-*-deps.zip -d /root/te_base/resources/lib
 
 # START
 ENV JAVA_OPTS="-Xms1024m -Xmx2048m -DTE_BASE=/root/te_base/"
