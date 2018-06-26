@@ -1,0 +1,29 @@
+install
+-------
+
+ets-wfs11: 1.31 release
+$ unzip -q teamengine-console-4.10-bin.zip -d /root/te_base
+
+
+params_wfs.xml
+--------------
+
+<?xml version="1.0" encoding="UTF-8"?>
+<values>
+        <value key="capabilities-url">
+                http://192.168.1.34/qgisserver?MAP=/home/blottiere/data/teamengine_wfs_20.qgs&amp;service=WFS&amp;request=getcapabilities&amp;version=1.1.0
+        </value>
+</values>
+
+command
+-------
+
+$ cd /root/te_base
+$ ./bin/unix/test.sh -source=wfs/1.1.0/ctl/main.ctl -form=params_wfs11.xml
+
+log
+---
+
+./bin/unix/viewlog.sh -logdir=/root/te_base/users/root/ -session=s0015
+
+./bin/unix/viewlog.sh -logdir=/root/te_base/users/root/ s0015/d1e38807_1/d1e636_1/d1e28810_1/d1e1136_1
