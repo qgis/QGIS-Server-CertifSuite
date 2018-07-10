@@ -85,9 +85,9 @@ class Node(object):
                         '<ul>\n')
             for c in self.childs:
                 subtests += ('<li>'
-                             '<a href="">{}</a><b style="font-family: '
+                             '<a href="#{}">{}</a><b style="font-family: '
                              'Verdana, sans-serif; color: {};"> {}</b>'
-                             '</li>').format(c.name, c.color, c.status)
+                             '</li>').format(c.id, c.name, c.color, c.status)
 
         request = ''
         if self.url and not self.childs:
@@ -108,14 +108,14 @@ class Node(object):
                        ).format(self.message)
 
         body = ('<div class="test">\n'
-                '<h2><a name="">test: {}</a></h2>'
+                '<h2><a name="{}">test: {}</a></h2>'
                 '<p><h4>Assertion</h4>{}</p>'
                 '<p><h4>Test result</h4>{}</p>'
                 '{}'
                 '{}'
                 '{}'
                 '</div>\n'
-                ).format(self.name, self.assertion, result, subtests,
+                ).format(self.id, self.name, self.assertion, result, subtests,
                          request, message)
 
         return body
@@ -125,9 +125,9 @@ class Node(object):
         for c in self.childs:
             toc += c.toc()
 
-        href = ('<a href="">{}</a><b style="font-family: Verdana, '
+        href = ('<a href="#{}">{}</a><b style="font-family: Verdana, '
                 'sans-serif; color: {};"> {}</b>'
-                ).format(self.name, self.color, self.status)
+                ).format(self.id, self.name, self.color, self.status)
 
         toc = ('<ul>\n'
                '  <li>\n'
