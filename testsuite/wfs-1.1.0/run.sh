@@ -2,7 +2,7 @@
 
 # download data
 URL=http://cite.opengeospatial.org/teamengine/about/wms/1.3.0/site/
-OUTPUTDIR=/tmp/certifsuite-wms130
+OUTPUTDIR=/tmp/certifsuite-wfs110
 
 if [ ! -f data/shapefile/Autos.shp ]
 then
@@ -13,14 +13,33 @@ then
   cd -
 fi
 
+if [ ! -f venv/bin/activate ]
+then
+  virtualenv -p /usr/bin/python3 venv
+fi
+. venv/bin/activate
+pip install -r requirements.txt
+
 # start servers
 docker-compose up -d
 
+
+# get metadata
+VERSION=$(docker exec -it qgisserver-certifsuite-master sh -c 'cd /root/QGIS/ && git rev-parse --symbolic-full-name --abbrev-ref HEAD')
+COMMIT=$(docker exec -it qgisserver-certifsuite-master sh -c 'cd /root/QGIS/ && git rev-parse HEAD')
+
 # run tests
-# rm -rf $OUTPUTDIR
-# mkdir -p $OUTPUTDIR
-# ./report.py $OUTPUTDIR bloublo
-#
-# # clear containers
-# docker-compose stop
-# docker-compose rm -f
+rm -rf $OUTPUTDIR
+mkdir -p $OUTPUTDIR
+
+sleep 10
+docker exec -it qgisserver-certifsuite-teamengine sh -c 'cd /root/te_base && ./bin/unix/test.sh -source=wfs/1.1.0/ctl/main.ctl -form=/root/params.xml' > /dev/null 2>&1
+# docker exec -it qgisserver-certifsuite-teamengine sh -c 'cd /root/te_base && ./bin/unix/viewlog.sh -logdir=/root/te_base/users/root/ -session=s0001'
+
+python3 report.py $OUTPUTDIR $VERSION $COMMIT
+
+deactivate
+
+# clear containers
+docker-compose stop
+docker-compose rm -f

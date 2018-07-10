@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<values>
+  <value key="capabilities-url">
+    http://nginx/qgisserver_master?MAP=/data/teamengine_wfs_110.qgs&amp;service=WFS&amp;request=getcapabilities&amp;version=1.1.0
+  </value>
+</values>
