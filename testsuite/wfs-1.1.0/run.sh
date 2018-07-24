@@ -37,6 +37,7 @@ docker exec -it qgisserver-certifsuite-teamengine sh -c 'cd /root/te_base && ./b
 # docker exec -it qgisserver-certifsuite-teamengine sh -c 'cd /root/te_base && ./bin/unix/viewlog.sh -logdir=/root/te_base/users/root/ -session=s0001'
 
 python3 report.py $OUTPUTDIR $VERSION $COMMIT
+curl "http://localhost:8089/qgisserver_master?MAP=/data/teamengine_wfs_110.qgs&SERVICE=WFS&REQUEST=GetCapabilities" > $OUTPUTDIR/getcapabilities.xml
 
 deactivate
 
