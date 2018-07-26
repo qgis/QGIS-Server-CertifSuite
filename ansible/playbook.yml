@@ -4,8 +4,6 @@
   vars_files:
     - vars.yml
   roles:
-    # - env
     - docker
-      # - graffiti
-      # - data
-      # - ci
+    - testsuite
+    - ci

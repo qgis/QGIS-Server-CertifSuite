@@ -23,7 +23,7 @@ COMMIT=$(docker exec -it qgisserver-certifsuite-master sh -c 'cd /root/QGIS/ && 
 # run tests
 rm -rf $OUTPUTDIR
 mkdir -p $OUTPUTDIR
-./report.py $OUTPUTDIR $VERSION $COMMIT
+python3 report.py $OUTPUTDIR $VERSION $COMMIT
 
 # clear containers
 docker-compose stop
