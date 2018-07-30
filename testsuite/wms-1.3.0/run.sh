@@ -15,6 +15,7 @@ fi
 
 # start servers
 docker-compose up -d
+sleep 30
 
 # get metadata
 VERSION=$(docker exec -it qgisserver-certifsuite-master sh -c 'cd /root/QGIS/ && git rev-parse --symbolic-full-name --abbrev-ref HEAD')
