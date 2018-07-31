@@ -14,12 +14,13 @@ then
 fi
 
 # start servers
+export COMPOSE_INTERACTIVE_NO_CLI=1
 docker-compose up -d
 sleep 30
 
 # get metadata
-VERSION=$(docker exec -it qgisserver-certifsuite-master sh -c 'cd /root/QGIS/ && git rev-parse --symbolic-full-name --abbrev-ref HEAD')
-COMMIT=$(docker exec -it qgisserver-certifsuite-master sh -c 'cd /root/QGIS/ && git rev-parse HEAD')
+VERSION=$(docker exec -i qgisserver-certifsuite-master sh -c 'cd /root/QGIS/ && git rev-parse --symbolic-full-name --abbrev-ref HEAD')
+COMMIT=$(docker exec -i qgisserver-certifsuite-master sh -c 'cd /root/QGIS/ && git rev-parse HEAD')
 
 # run tests
 rm -rf $OUTPUTDIR
