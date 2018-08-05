@@ -19,7 +19,7 @@ if [ -d $WMS130 ]
 then
   rm -f $WMS130/report.xml
   scp -r $WMS130 qgis-test:/var/www/qgisdata/QGIS-tests/ogc_cite/wms_130/$DATE
-  scp -r $WMS130 qgis-test:/var/www/qgisdata/QGIS-tests/ogc_cite/wms_130/latest
+  scp -r $WMS130/* qgis-test:/var/www/qgisdata/QGIS-tests/ogc_cite/wms_130/latest/
 fi
 
 echo "Run OGC tests for WFS 1.1.0"
@@ -29,5 +29,5 @@ cd wfs-1.1.0/ && sh run.sh && cd -
 if [ -d $WFS110 ]
 then
   scp -r $WFS110 qgis-test:/var/www/qgisdata/QGIS-tests/ogc_cite/wfs_110/$DATE
-  scp -r $WFS110 qgis-test:/var/www/qgisdata/QGIS-tests/ogc_cite/wfs_110/latest
+  scp -r $WFS110/* qgis-test:/var/www/qgisdata/QGIS-tests/ogc_cite/wfs_110/latest/
 fi
