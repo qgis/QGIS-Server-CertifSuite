@@ -240,7 +240,9 @@
       <CandidatesLine type="int">50</CandidatesLine>
       <CandidatesPolygon type="int">30</CandidatesPolygon>
     </PAL>
-    <WFSLayers type="QStringList"/>
+    <WFSLayers type="QStringList">
+      <value>Ponds_e476bbc3_0782_477e_a7e8_9e440e4756e4</value>
+    </WFSLayers>
     <WMSOnlineResource type="QString">Online resource</WMSOnlineResource>
     <SpatialRefSys>
       <ProjectCRSProj4String type="QString"></ProjectCRSProj4String>
