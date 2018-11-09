@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:testing
 MAINTAINER Paul Blottiere <blottiere.paul@gmail.com>
 RUN  export DEBIAN_FRONTEND=noninteractive
 ENV  DEBIAN_FRONTEND noninteractive
@@ -33,8 +33,8 @@ RUN apt-get install -y \
   libqt5svg5-dev \
   libqt5webkit5-dev \
   libqt5xmlpatterns5-dev \
-  libqwt-qt5-dev \
   libqt5serialport5-dev \
+  libqwt-qt5-dev \
   libspatialindex-dev \
   libspatialite-dev \
   libsqlite3-dev \
@@ -79,7 +79,8 @@ RUN apt-get install -y \
   qtpositioning5-dev \
   qttools5-dev \
   qttools5-dev-tools \
-  spawn-fcgi
+  spawn-fcgi \
+  postgresql-client
 RUN locale-gen en_US.UTF-8 en_us && \
   dpkg-reconfigure locales && \
   dpkg-reconfigure locales && \
@@ -91,12 +92,12 @@ ENV LC_ALL C.UTF-8
 
 WORKDIR /root
 
+ADD cmd.sh /root/cmd.sh
+ADD qgis.sh /root/qgis.sh
+
 RUN git clone https://github.com/qgis/QGIS
 RUN cd QGIS && mkdir build
-RUN cd QGIS/build && cmake -DWITH_SERVER=ON .. && make -j4 && make install && ldconfig
-RUN rm -rf /root/QGIS/build
-
-ADD cmd.sh /root/cmd.sh
+RUN cd QGIS/build && cmake -DCMAKE_BUILD_TYPE=Release -DWITH_SERVER=ON .. 
 
 WORKDIR /
 CMD ["sh", "/root/cmd.sh"]
