@@ -12,6 +12,8 @@ WORKDIR /root
 # TEAMENGINE
 RUN git clone https://github.com/opengeospatial/teamengine
 
+ENV _JAVA_OPTIONS -Djdk.net.URLClassPath.disableClassPathURLCheck=true
+
 WORKDIR /root/teamengine
 RUN git checkout 4.10
 RUN mvn install
