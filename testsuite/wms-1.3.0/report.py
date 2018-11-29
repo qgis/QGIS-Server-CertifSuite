@@ -71,12 +71,14 @@ if __name__ == '__main__':
                         help='Output directory')
     parser.add_argument('version', metavar='version', type=str,
                         help='QGIS Version')
+    parser.add_argument('branch', metavar='branch', type=str,
+                        help='QGIS Branch')
     parser.add_argument('hash', metavar='hash', type=str, help='QGIS Hash')
     args = parser.parse_args()
 
     teamengine_url = ('http://localhost:8081/teamengine/rest/suites/wms'
                       '/1.22/run')
-    qgisserver_url = 'http://nginx/qgisserver_master'
+    qgisserver_url = 'http://nginx/qgisserver_{}'.format(args.branch)
     getcapabilities_url = ('{}?REQUEST=GetCapabilities%26SERVICE=WMS'
                            '%26VERSION=1.3.0%26'
                            'MAP=/data/teamengine_wms_130.qgs'
