@@ -16,7 +16,7 @@ services:
     container_name: qgisserver-certifsuite-teamengine
     image: qgisserver-certifsuite/teamengine-4
     ports:
-      - 8081:8080
+      - 8090:8080
     networks:
       - qgis
     depends_on:

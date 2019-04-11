@@ -76,7 +76,7 @@ if __name__ == '__main__':
     parser.add_argument('hash', metavar='hash', type=str, help='QGIS Hash')
     args = parser.parse_args()
 
-    teamengine_url = ('http://localhost:8081/teamengine/rest/suites/wms'
+    teamengine_url = ('http://localhost:8090/teamengine/rest/suites/wms'
                       '/1.22/run')
     qgisserver_url = 'http://nginx/qgisserver_{}'.format(args.branch)
     getcapabilities_url = ('{}?REQUEST=GetCapabilities%26SERVICE=WMS'

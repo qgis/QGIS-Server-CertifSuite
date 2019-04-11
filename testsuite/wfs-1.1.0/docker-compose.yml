@@ -18,7 +18,7 @@ services:
     volumes:
       - ./params.xml:/root/params.xml:ro
     ports:
-      - 8081:8080
+      - 8090:8080
     networks:
       - qgis
     depends_on:
