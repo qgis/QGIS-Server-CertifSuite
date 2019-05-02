@@ -47,7 +47,7 @@
       Exhaustive description for Test Suite: <a href="http://cite.opengeospatial.org/teamengine/about/wms/1.3.0/site/wms-1_3_0-ats.html">here</a>
       <br/>
       <br/>
-      This report is automatically generated thanks to <a href="https://github.com/Oslandia/QGIS-Server-CertifSuite">QGIS-Server-CertifSuite</a>.
+      This report is automatically generated thanks to <a href="https://github.com/qgis/QGIS-Server-CertifSuite">QGIS-Server-CertifSuite</a>.
     </p>
     <h2>Content</h2>
     <xsl:call-template name="ispezione"/>
