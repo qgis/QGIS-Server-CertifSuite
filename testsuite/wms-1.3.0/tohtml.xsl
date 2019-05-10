@@ -22,13 +22,23 @@
     </html>
   </xsl:template>
   <xsl:template name="tableoc">
-    <h1>QGIS Server Certification Report for WMS 1.3.0</h1>
+    <div id="navbar" class="navbar">
+      <div class="logo">
+        <img style="height:60px" src="logo.png" alt="Logo" />
+      </div>
 
-    <div class="date">
-      {{TEMPLATE_DATE}}
+      <h1>QGIS Server Certification Report for WMS 1.3.0</h1>
+
+      <div class="date">
+        {{TEMPLATE_DATE}}
+      </div>
+
+      <div class="about" id="color-identifier"></div>
     </div>
 
     <p>
+      <br/>
+      <br/>
       Overall result:
       <xsl:call-template name="testVerdictFromCode">
         <xsl:with-param name="resultCode" select="/execution/log[1]/endtest/@result"/>
