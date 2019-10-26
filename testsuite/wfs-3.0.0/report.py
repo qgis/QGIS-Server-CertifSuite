@@ -9,7 +9,7 @@ import shutil
 
 
 def run_cmd(cmd):
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     out, err = p.communicate()
     return out, err
 
@@ -22,7 +22,7 @@ def clean(outdir):
 def run_teamengine(xml, teamengine_url, getcapabilities_url):
     getcapa = ('{0}?iut={1}'
                .format(teamengine_url, getcapabilities_url))
-    out, err = run_cmd(['wget', '-O', xml, getcapa])
+    out, err = run_cmd('wget --header="Accept: application/xml" -O {} {}'.format(xml, getcapa))
 
 
 def generate_html(xml, html, version, commit):
