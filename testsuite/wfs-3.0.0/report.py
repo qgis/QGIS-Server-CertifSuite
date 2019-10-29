@@ -8,6 +8,9 @@ import datetime
 import subprocess
 import xml.etree.ElementTree as ET
 
+COLOR_PASSED="#006600"
+COLOR_SKIPPED="#ffa500"
+COLOR_FAILED="#e60000"
 
 class Class(object):
 
@@ -17,36 +20,29 @@ class Class(object):
         self.description = "Test the {} class according to the API described <a href=\"{}\">here</a>.".format(self.name, self.link)
         self.methods = []
 
-    def dump(self):
-        print("Class: ")
-        print("  - name: {}".format(self.name))
-        print("  - link: {}".format(self.link))
-        print("  - passed: {}".format(self.status()))
-
-        for m in self.methods:
-            m.dump()
-
+    @property
     def status(self):
 
         passed = True
         for m in self.methods:
-            passed &= m.passed()
+            passed &= m.passed
 
         if passed:
             return "Passed"
         else:
             return "Fail"
 
+    @property
     def color(self):
-        if self.status() == "Passed":
-            return "#006600"
+        if self.status == "Passed":
+            return COLOR_PASSED
         else:
-            return "#e60000"
+            return COLOR_FAILED
 
     def toc(self):
         href = ('<a href="#">{}</a><b style="font-family: Verdana, '
                 'sans-serif; color: {};"> {}</b>'
-               ).format(self.name, self.color(), self.status())
+               ).format(self.name, self.color, self.status)
 
         t = ''
         for m in self.methods:
@@ -69,7 +65,7 @@ class Class(object):
 
         result = ('<b style="font-family: Verdana, sans-serif; '
                   'color: {};"> {}</b>'
-        ).format(self.color(), self.status())
+        ).format(self.color, self.status)
 
         subtests = ''
         if self.methods:
@@ -79,7 +75,7 @@ class Class(object):
                 subtests += ('<li>'
                              '<a href="#{}">{}</a><b style="font-family: '
                              'Verdana, sans-serif; color: {};"> {}</b>'
-                             '</li>').format("id", m.name, m.color(), m.status)
+                             '</li>').format("id", m.name, m.color, m.status)
             subtests += "</ul>"
 
         body = ('<div class="test">\n'
@@ -108,27 +104,26 @@ class Method(object):
         elif status == "SKIP":
             self.status = "Skipped"
 
-    def dump(self):
-        print("    - {}: {}".format(self.name, self.status))
-
+    @property
     def passed(self):
         if self.status == 'FAIL':
             return False
         else:
             return True
 
+    @property
     def color(self):
         if self.status == "Passed":
-            return "#006600"
+            return COLOR_PASSED
         elif self.status == "Skipped":
-            return "#ffa500"
+            return COLOR_SKIPPED
         else:
-            return "#e60000"
+            return COLOR_FAILED
 
     def toc(self):
         href = ('<a href="#">{}</a><b style="font-family: Verdana, '
                 'sans-serif; color: {};"> {}</b>'
-               ).format(self.name, self.color(), self.status)
+               ).format(self.name, self.color, self.status)
 
         toc = ('<ul>\n'
            '  <li>\n'
@@ -141,7 +136,7 @@ class Method(object):
     def body(self, classname, link):
         result = ('<b style="font-family: Verdana, sans-serif; '
                   'color: {};"> {}</b>'
-        ).format(self.color(), self.status)
+        ).format(self.color, self.status)
 
         description = self.description
         if not description:
@@ -186,9 +181,9 @@ class Toc(object):
 
     def color(self):
         if self.status() == "Passed":
-            return "#006600"
+            return COLOR_PASSED
         else:
-            return "#e60000"
+            return COLOR_FAILED
 
 
 class Body(object):
@@ -316,8 +311,8 @@ if __name__ == '__main__':
     html = '{}/report.html'.format(outdir)
     log = '{}/log.txt'.format(outdir)
 
-    # clean(outdir)
-    # run_teamengine(xml, teamengine_url, getcapabilities_url)
+    clean(outdir)
+    run_teamengine(xml, teamengine_url, getcapabilities_url)
     generate_html(xml, outdir, args.version, args.hash)
     shutil.copy('style.css', outdir)
     shutil.copy('logo.png', outdir)
