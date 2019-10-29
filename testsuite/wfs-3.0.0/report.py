@@ -14,6 +14,7 @@ class Class(object):
     def __init__(self, name):
         self.name = name.split('.')[-1]
         self.link = "https://opengeospatial.github.io/ets-wfs30/apidocs/{}".format(name.replace('.', '/'))
+        self.description = "Test the {} class according to the API described <a href=\"{}\">here</a>.".format(self.name, self.link)
         self.methods = []
 
     def dump(self):
@@ -60,11 +61,46 @@ class Class(object):
 
         return toc
 
+    def body(self):
+
+        body_methods = ""
+        for m in self.methods:
+            body_methods += m.body(self.name, self.link)
+
+        result = ('<b style="font-family: Verdana, sans-serif; '
+                  'color: {};"> {}</b>'
+        ).format(self.color(), self.status())
+
+        subtests = ''
+        if self.methods:
+            subtests = ('<p><h4>Executed tests</h4>'
+                        '<ul>\n')
+            for m in self.methods:
+                subtests += ('<li>'
+                             '<a href="#{}">{}</a><b style="font-family: '
+                             'Verdana, sans-serif; color: {};"> {}</b>'
+                             '</li>').format("id", m.name, m.color(), m.status)
+            subtests += "</ul>"
+
+        body = ('<div class="test">\n'
+        '<h2><a name="{}">test: {}</a></h2>'
+        '<p><h4>Assertion</h4>{}</p>'
+        '<p><h4>Test result</h4>{}</p>'
+        '{}'
+        '{}'
+        '</div>\n'
+        ).format("id", self.name, self.description, result, subtests, body_methods)
+
+        return body
+
 
 class Method(object):
 
-    def __init__(self, name, status):
+    def __init__(self, name, status, description, exception, message):
         self.name = name
+        self.exception = exception
+        self.message = message
+        self.description = description
 
         self.status = "Passed"
         if status == "FAIL":
@@ -102,6 +138,28 @@ class Method(object):
 
         return toc
 
+    def body(self, classname, link):
+        result = ('<b style="font-family: Verdana, sans-serif; '
+                  'color: {};"> {}</b>'
+        ).format(self.color(), self.status)
+
+        description = self.description
+        if not description:
+            description = "Test {}.{} method.".format(classname, self.name)
+
+        reporter = "There is nothing to report."
+        if self.status != "Passed":
+            reporter = "{}: {}".format(self.exception, self.message)
+
+        body = ('<div class="test">\n'
+        '<h2><a name="{}">test: {}.{}</a></h2>'
+        '<p><h4>Assertion</h4>{}</p>'
+        '<p><h4>Test result</h4>{}</p>'
+        '<p><h4>Message</h4>{}</p>'
+        '</div>\n'
+        ).format("id", classname, self.name, description, result, reporter)
+
+        return body
 
 class Toc(object):
 
@@ -133,6 +191,21 @@ class Toc(object):
             return "#e60000"
 
 
+class Body(object):
+
+    def __init__(self, toc):
+        self.toc = toc
+
+    def body(self):
+
+        body = ''
+
+        for cl in self.toc.classes:
+            body += cl.body()
+
+        return body
+
+
 def run_cmd(cmd):
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     out, err = p.communicate()
@@ -159,11 +232,25 @@ def generate_html(xml, outdir, version, commit):
     for test in tests:
         cl = Class(test.attrib['name'])
         for ch in test:
-            m = Method(ch.attrib['name'], ch.attrib['status'])
+            description = ''
+            if 'description' in ch.attrib:
+                description = ch.attrib['description']
+
+            exception = ""
+            message = ""
+            for cc in ch:
+                if 'exception' in cc.tag:
+                    exception = cc.attrib['class']
+                    for ccc in cc:
+                        if 'message' in ccc.tag:
+                            message = ccc.text
+
+            m = Method(ch.attrib['name'], ch.attrib['status'], description, exception, message)
             cl.methods.append(m)
         classes.append(cl)
 
     toc = Toc(classes)
+    body = Body(toc)
 
     # generate html
     outpath = os.path.join(outdir, 'report.html')
@@ -200,9 +287,9 @@ def generate_html(xml, outdir, version, commit):
                     line = toc.toc()
 
                 # # body
-                # body_tag = '{{TEMPLATE_BODY}}'
-                # if body_tag in line:
-                #     line = cont
+                body_tag = '{{TEMPLATE_BODY}}'
+                if body_tag in line:
+                    line = body.body()
 
                 outfile.write(line)
 
