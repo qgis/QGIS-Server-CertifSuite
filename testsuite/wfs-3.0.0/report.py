@@ -19,6 +19,7 @@ class Class(object):
         self.link = "https://opengeospatial.github.io/ets-wfs30/apidocs/{}".format(name.replace('.', '/'))
         self.description = "Test the {} class according to the API described <a href=\"{}\">here</a>.".format(self.name, self.link)
         self.methods = []
+        self.id = self.name
 
     @property
     def status(self):
@@ -40,9 +41,9 @@ class Class(object):
             return COLOR_FAILED
 
     def toc(self):
-        href = ('<a href="#">{}</a><b style="font-family: Verdana, '
+        href = ('<a href="#{}">{}</a><b style="font-family: Verdana, '
                 'sans-serif; color: {};"> {}</b>'
-               ).format(self.name, self.color, self.status)
+               ).format(self.id, self.name, self.color, self.status)
 
         t = ''
         for m in self.methods:
@@ -73,9 +74,9 @@ class Class(object):
                         '<ul>\n')
             for m in self.methods:
                 subtests += ('<li>'
-                             '<a href="#{}">{}</a><b style="font-family: '
+                             '<a name="{}">{}</a><b style="font-family: '
                              'Verdana, sans-serif; color: {};"> {}</b>'
-                             '</li>').format("id", m.name, m.color, m.status)
+                             '</li>').format(m.id, m.name, m.color, m.status)
             subtests += "</ul>"
 
         body = ('<div class="test">\n'
@@ -85,7 +86,7 @@ class Class(object):
         '{}'
         '{}'
         '</div>\n'
-        ).format("id", self.name, self.description, result, subtests, body_methods)
+        ).format(self.name, self.name, self.description, result, subtests, body_methods)
 
         return body
 
@@ -97,6 +98,7 @@ class Method(object):
         self.exception = exception
         self.message = message
         self.description = description
+        self.id = self.name
 
         self.status = "Passed"
         if status == "FAIL":
@@ -121,9 +123,9 @@ class Method(object):
             return COLOR_FAILED
 
     def toc(self):
-        href = ('<a href="#">{}</a><b style="font-family: Verdana, '
+        href = ('<a href="#{}">{}</a><b style="font-family: Verdana, '
                 'sans-serif; color: {};"> {}</b>'
-               ).format(self.name, self.color, self.status)
+               ).format(self.id, self.name, self.color, self.status)
 
         toc = ('<ul>\n'
            '  <li>\n'
