@@ -1,7 +1,7 @@
 #! /bin/bash
 
 URL=http://cite.opengeospatial.org/teamengine/about/wms/1.3.0/site/
-OUTPUTDIR=/tmp/certifsuite-wfs3
+OUTPUTDIR=/tmp/certifsuite-ogcapif
 BRANCH=master
 
 if [ ! -f data/shapefile/Autos.shp ]
