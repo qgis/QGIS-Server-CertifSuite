@@ -30,6 +30,7 @@ services:
       - qgis
     volumes:
       - ./data:/data
+    privileged: true
 
 networks:
   qgis:
