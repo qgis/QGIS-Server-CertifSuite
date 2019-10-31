@@ -165,6 +165,9 @@ def generate_html(outdir, version, commit):
         if not line:
             continue
 
+        if "_JAVA_OPTIONS" in line:
+            continue
+
         node = Node(str(line))
         nodes.append(node)
 
