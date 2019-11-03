@@ -8,6 +8,11 @@ testsuite/wfs-1.1.0/data/mapinfo
 testsuite/wfs-1.1.0/data/metadata
 testsuite/wfs-1.1.0/data/raster
 testsuite/wfs-1.1.0/data/shapefile
+testsuite/wfs-3.0.0/data/gml
+testsuite/wfs-3.0.0/data/mapinfo
+testsuite/wfs-3.0.0/data/metadata
+testsuite/wfs-3.0.0/data/raster
+testsuite/wfs-3.0.0/data/shapefile
 venv
 *.retry
 qgis4.sh
