@@ -16,7 +16,7 @@ class Class(object):
 
     def __init__(self, name):
         self.name = name.split('.')[-1]
-        self.link = "https://opengeospatial.github.io/ets-wfs30/apidocs/{}".format(name.replace('.', '/'))
+        self.link = "http://cite.opengeospatial.org/te2/about/ogcapi-features-1.0/1.0/site/apidocs/{}.html".format(name.replace('.', '/'))
         self.description = "Test the {} class according to the API described <a href=\"{}\">here</a>.".format(self.name, self.link)
         self.methods = []
         self.id = self.name
