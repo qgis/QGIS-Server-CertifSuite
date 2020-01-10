@@ -303,10 +303,8 @@ if __name__ == '__main__':
     parser.add_argument('hash', metavar='hash', type=str, help='QGIS Hash')
     args = parser.parse_args()
 
-    teamengine_url = 'http://localhost:8090/teamengine/rest/suites/wfs30/run'
+    teamengine_url = 'http://localhost:8090/teamengine/rest/suites/ogcapi-features-1.0/run'
     qgisserver_url = 'http://nginx/qgisserver_{}/wfs3'.format(args.branch)
-    getcapabilities_url = ('{}?MAP=/data/teamengine_wms_130.qgs'
-                           .format(qgisserver_url))
 
     outdir = args.outdir
     xml = '{}/report.xml'.format(outdir)
@@ -314,7 +312,7 @@ if __name__ == '__main__':
     log = '{}/log.txt'.format(outdir)
 
     clean(outdir)
-    run_teamengine(xml, teamengine_url, getcapabilities_url)
+    run_teamengine(xml, teamengine_url, qgisserver_url)
     generate_html(xml, outdir, args.version, args.hash)
     shutil.copy('style.css', outdir)
     shutil.copy('logo.png', outdir)
