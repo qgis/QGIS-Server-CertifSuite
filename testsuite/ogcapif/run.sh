@@ -6,6 +6,7 @@ BRANCH=master
 
 if [ ! -f data/QGIS-Training-Data/exercise_data/qgis-server-tutorial-data/world3.qgs ]
 then
+  mkdir -p data
   cd data
   git clone https://github.com/qgis/QGIS-Training-Data
   cd -
