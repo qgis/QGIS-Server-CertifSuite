@@ -12,8 +12,8 @@ services:
     depends_on:
       - qgis-master
   teamengine:
-    container_name: ogccite-ets-wfs30
-    image: ogccite/ets-wfs30
+    container_name: ets-ogcapi-features10
+    image: ogccite/ets-ogcapi-features10
     ports:
       - 8090:8080
     networks:

@@ -16,7 +16,7 @@ class Class(object):
 
     def __init__(self, name):
         self.name = name.split('.')[-1]
-        self.link = "https://opengeospatial.github.io/ets-wfs30/apidocs/{}".format(name.replace('.', '/'))
+        self.link = "http://cite.opengeospatial.org/te2/about/ogcapi-features-1.0/1.0/site/apidocs/{}.html".format(name.replace('.', '/'))
         self.description = "Test the {} class according to the API described <a href=\"{}\">here</a>.".format(self.name, self.link)
         self.methods = []
         self.id = self.name
@@ -303,10 +303,8 @@ if __name__ == '__main__':
     parser.add_argument('hash', metavar='hash', type=str, help='QGIS Hash')
     args = parser.parse_args()
 
-    teamengine_url = 'http://localhost:8090/teamengine/rest/suites/wfs30/run'
+    teamengine_url = 'http://localhost:8090/teamengine/rest/suites/ogcapi-features-1.0/run'
     qgisserver_url = 'http://nginx/qgisserver_{}/wfs3'.format(args.branch)
-    getcapabilities_url = ('{}?MAP=/data/teamengine_wms_130.qgs'
-                           .format(qgisserver_url))
 
     outdir = args.outdir
     xml = '{}/report.xml'.format(outdir)
@@ -314,7 +312,7 @@ if __name__ == '__main__':
     log = '{}/log.txt'.format(outdir)
 
     clean(outdir)
-    run_teamengine(xml, teamengine_url, getcapabilities_url)
+    run_teamengine(xml, teamengine_url, qgisserver_url)
     generate_html(xml, outdir, args.version, args.hash)
     shutil.copy('style.css', outdir)
     shutil.copy('logo.png', outdir)

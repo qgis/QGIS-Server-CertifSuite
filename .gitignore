@@ -13,6 +13,7 @@ testsuite/wfs-3.0.0/data/mapinfo
 testsuite/wfs-3.0.0/data/metadata
 testsuite/wfs-3.0.0/data/raster
 testsuite/wfs-3.0.0/data/shapefile
+QGIS-Training-Data
 venv
 *.retry
 qgis4.sh
