@@ -1,4 +1,4 @@
-FROM debian:testing
+FROM debian:sid
 MAINTAINER Paul Blottiere <blottiere.paul@gmail.com>
 RUN  export DEBIAN_FRONTEND=noninteractive
 ENV  DEBIAN_FRONTEND noninteractive
