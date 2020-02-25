@@ -245,6 +245,9 @@
         <map-layer-style name="default"/>
       </map-layer-style-manager>
       <auxiliaryLayer/>
+      <wmsDimensions>
+        <dimension endFieldName="" referenceValue="" units="ISO8601" defaultDisplayType="0" name="time" fieldName="TIME" unitSymbol=""/>
+      </wmsDimensions>
       <renderer-v2 forceraster="0" enableorderby="0" symbollevels="0" type="singleSymbol">
         <symbols>
           <symbol alpha="1" name="0" type="marker" clip_to_extent="1">
