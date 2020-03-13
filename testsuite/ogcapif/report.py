@@ -108,7 +108,7 @@ class Method(object):
 
     @property
     def passed(self):
-        if self.status == 'FAIL':
+        if self.status == 'Failed':
             return False
         else:
             return True
