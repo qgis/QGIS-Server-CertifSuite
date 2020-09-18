@@ -12,15 +12,6 @@ services:
       - ./data/metadata:/var/www/html/wms13/metadata
     depends_on:
       - qgis-master
-  teamengine:
-    container_name: qgisserver-certifsuite-teamengine
-    image: qgisserver-certifsuite/teamengine-4
-    ports:
-      - 8090:8080
-    networks:
-      - qgis
-    depends_on:
-      - nginx
   qgis-master:
     container_name: qgisserver-certifsuite-master
     image: qgisserver-certifsuite/master

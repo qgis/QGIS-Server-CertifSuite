@@ -18,3 +18,4 @@ venv
 *.retry
 qgis4.sh
 docker/custom
+testsuite/wms-1.3.0/pyogctest
