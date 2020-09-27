@@ -1,17 +1,23 @@
 #! /bin/bash
+BRANCH=master
+OUTPUTDIR=/tmp/certifsuite-wms130
+
+# install pyogctest
+if [ ! -f pyogctest/setup.py ]
+then
+  git clone https://github.com/pblottiere/pyogctest
+  virtualenv venv
+  . venv/bin/activate
+  pip install -e pyogctest/
+  deactivate
+fi
 
 # download data
-URL=http://cite.opengeospatial.org/teamengine/about/wms/1.3.0/site/
-OUTPUTDIR=/tmp/certifsuite-wms130
-BRANCH=master
-
 if [ ! -f data/shapefile/Autos.shp ]
 then
-  cd data
-  wget $URL/data-wms-1.3.0.zip
-  unzip data-wms-1.3.0.zip
-  rm data-wms-1.3.0.zip
-  cd -
+  . venv/bin/activate
+  ./pyogctest/pyogctest.py -s wms130 -w
+  deactivate
 fi
 
 # start servers
@@ -25,10 +31,12 @@ COMMIT=$(docker exec -i qgisserver-certifsuite-$BRANCH sh -c 'cd /root/QGIS/ && 
 
 # run tests
 rm -rf $OUTPUTDIR
-mkdir -p $OUTPUTDIR
-python3 report.py $OUTPUTDIR $VERSION $BRANCH $COMMIT
+. venv/bin/activate
++./pyogctest/pyogctest.py -p 8087 -n wms130_qgis -s wms130 -v -u http://$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' qgisserver-certifsuite-nginx)/qgisserver -f html -o $OUTPUTDIR/ -c $COMMIT -b $VERSION
+deactivate
+mv $OUTPUTDIR/teamengine.html $OUTPUTDIR/report.html
 
-curl "http://localhost:8089/qgisserver_$BRANCH?MAP=/data/teamengine_wms_130.qgs&SERVICE=WMS&REQUEST=GetCapabilities" > $OUTPUTDIR/getcapabilities.xml
+curl "http://$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' qgisserver-certifsuite-nginx)/qgisserver?SERVICE=WMS&REQUEST=GetCapabilities" > $OUTPUTDIR/getcapabilities.xml
 
 # clear containers
 docker-compose stop
