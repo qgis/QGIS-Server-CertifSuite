@@ -7,7 +7,7 @@ if [ ! -f pyogctest/setup.py ]
 then
   git clone https://github.com/pblottiere/pyogctest
   virtualenv venv
-  source venv/bin/activate
+  . venv/bin/activate
   pip install -e pyogctest/
   deactivate
 fi
@@ -15,7 +15,7 @@ fi
 # download data
 if [ ! -f data/shapefile/Autos.shp ]
 then
-  source venv/bin/activate
+  . venv/bin/activate
   ./pyogctest/pyogctest.py -s wms130 -w
   deactivate
 fi
@@ -31,8 +31,8 @@ COMMIT=$(docker exec -i qgisserver-certifsuite-$BRANCH sh -c 'cd /root/QGIS/ && 
 
 # run tests
 rm -rf $OUTPUTDIR
-source venv/bin/activate
-./pyogctest/pyogctest.py -p 8087 -n wms-130_qgis -s wms130 -v -u http://$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' qgisserver-certifsuite-nginx)/qgisserver -f html -o $OUTPUTDIR/ -c $COMMIT -b $VERSION
+. venv/bin/activate
++./pyogctest/pyogctest.py -p 8087 -n wms130_qgis -s wms130 -v -u http://$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' qgisserver-certifsuite-nginx)/qgisserver -f html -o $OUTPUTDIR/ -c $COMMIT -b $VERSION
 deactivate
 mv $OUTPUTDIR/teamengine.html $OUTPUTDIR/report.html
 
