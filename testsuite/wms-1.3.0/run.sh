@@ -6,7 +6,7 @@ OUTPUTDIR=/tmp/certifsuite-wms130
 if [ ! -f pyogctest/setup.py ]
 then
   git clone https://github.com/pblottiere/pyogctest
-  virtualenv venv
+  virtualenv -p /usr/bin/python3 venv
   . venv/bin/activate
   pip install -e pyogctest/
   deactivate
