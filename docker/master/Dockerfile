@@ -95,11 +95,10 @@ ENV LC_ALL C.UTF-8
 WORKDIR /root
 
 ADD cmd.sh /root/cmd.sh
-ADD qgis.sh /root/qgis.sh
 
 RUN git clone https://github.com/qgis/QGIS
 RUN cd QGIS && mkdir build
-RUN cd QGIS/build && cmake -DCMAKE_BUILD_TYPE=Release -DWITH_SERVER=ON ..
+RUN cd QGIS/build && cmake -DCMAKE_BUILD_TYPE=Release -DWITH_SERVER=ON .. && make -j4 && make install && ldconfig
 
 WORKDIR /
 CMD ["sh", "/root/cmd.sh"]
