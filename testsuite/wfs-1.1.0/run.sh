@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # download data
-URL=http://cite.opengeospatial.org/teamengine/about/wms/1.3.0/site/
+URL=https://cite.opengeospatial.org/teamengine/about/wms13/1.3.0/site/
 OUTPUTDIR=/tmp/certifsuite-wfs110
 
 if [ ! -f data/shapefile/Autos.shp ]
