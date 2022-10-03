@@ -32,7 +32,7 @@ COMMIT=$(docker exec -i qgisserver-certifsuite-$BRANCH sh -c 'cd /root/QGIS/ && 
 # run tests
 rm -rf $OUTPUTDIR
 . venv/bin/activate
-./pyogctest/pyogctest.py -p 8087 -n wms130_qgis -s wms130 -v -u http://$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' qgisserver-certifsuite-nginx)/qgisserver -f html -o $OUTPUTDIR/ -c $COMMIT -b $VERSION
+./pyogctest/pyogctest.py -p 8087 -n wms-130_qgis -s wms130 -v -u http://$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' qgisserver-certifsuite-nginx)/qgisserver -f html -o $OUTPUTDIR/ -c $COMMIT -b $VERSION
 deactivate
 mv $OUTPUTDIR/teamengine.html $OUTPUTDIR/report.html
 

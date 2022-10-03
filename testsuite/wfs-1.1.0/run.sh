@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # download data
-URL=http://cite.opengeospatial.org/teamengine/about/wms/1.3.0/site/
+URL=https://cite.opengeospatial.org/teamengine/about/wms13/1.3.0/site/
 OUTPUTDIR=/tmp/certifsuite-wfs110
 
 if [ ! -f data/shapefile/Autos.shp ]
@@ -38,6 +38,7 @@ docker exec -i qgisserver-certifsuite-teamengine sh -c 'cd /root/te_base && ./bi
 
 python3 report.py $OUTPUTDIR $VERSION $COMMIT
 curl "http://localhost:8089/qgisserver_master?MAP=/data/teamengine_wfs_110.qgs&SERVICE=WFS&REQUEST=GetCapabilities" > $OUTPUTDIR/getcapabilities.xml
+cp logo.png $OUTPUTDIR/
 
 deactivate
 
