@@ -6,5 +6,4 @@ run QGIS server and produce xml and html test
 
 Full description is here:
 
-see https://github.com/qgis/QGIS/wiki/OGC-compliance-for-QGIS/_edit
-
+see https://github.com/qgis/QGIS/wiki/OGC-compliance-for-QGIS/
